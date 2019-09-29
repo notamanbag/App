@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'registration_screen.dart';
 import 'package:flash_chat/ChatScreen.dart';
 import 'package:flash_chat/forgotpassword.dart';
+import 'registration_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -118,7 +119,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 0.0,
                     ),
                   RoundedButton(
-                    onPressed:(){Navigator.pushNamed(context, ForgotPassword.id);}, 
+                    onPressed:(){
+                      
+                      Navigator.pushNamed(context, ForgotPassword.id);}, 
                     title: 'Forgot Password',
                     colour: Colors.redAccent,
                   )

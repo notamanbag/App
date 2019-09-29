@@ -1,4 +1,5 @@
 
+import 'package:flash_chat/ChatScreen.dart';
 import 'package:flash_chat/screens/newscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/rounded_button.dart';
@@ -14,6 +15,12 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  Future <String>signIn(String email,String password) async {
+    FirebaseUser User = await _auth.signInWithEmailAndPassword(email: email,password: password) as FirebaseUser;
+    if(User.isEmailVerified)return User.uid;
+    else print("Not Verified");
+    return null;
+  }
   
   bool showspin = false;
   final _auth = FirebaseAuth.instance;
@@ -84,11 +91,19 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 onPressed: ()async {
                   
                   try {
-                     AuthResult newuser =  await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                    if (newuser != null) {
-                      Navigator.pushNamed(context,NewScreen.id);
-                    }
+                     FirebaseUser newuser =  (await _auth.createUserWithEmailAndPassword(
+                        email: email, password: password)).user;
+                        try{
+                          await newuser.sendEmailVerification();
+                          return newuser.uid;
+                          Navigator.pushNamed(context, ChatScreen.id);
+                        }
+                        catch(e)
+                        {
+                          print("An error occured while fetching ");
+                          print(e);
+                        }
+                   
                   } catch (e) {
                     print(e);
                   }
