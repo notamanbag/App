@@ -1,3 +1,4 @@
+
 import 'package:flash_chat/screens/newscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/rounded_button.dart';
@@ -13,10 +14,13 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  
   bool showspin = false;
   final _auth = FirebaseAuth.instance;
   String email;
   String password;
+  String number;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,26 +53,41 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
-                obscureText: true,
+              obscureText: true,
+                
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.black),
+                onChanged: (value) {
+                  number= value;
+                },
+                decoration:
+                    kDecoration.copyWith(hintText: 'Enter your password')),
+            SizedBox(
+              height: 24.0,
+            ),
+            TextField(
+                keyboardType:TextInputType.number,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
                 onChanged: (value) {
                   password = value;
                 },
                 decoration:
-                    kDecoration.copyWith(hintText: 'Enter your Password')),
+                    kDecoration.copyWith(hintText: 'Enter your Number')),
             SizedBox(
               height: 24.0,
             ),
+
             RoundedButton(
                 title: 'Register',
                 colour: Colors.blueAccent,
                 onPressed: ()async {
+                  
                   try {
-                    final newuser =  await _auth.createUserWithEmailAndPassword(
+                     AuthResult newuser =  await _auth.createUserWithEmailAndPassword(
                         email: email, password: password);
                     if (newuser != null) {
-                      Navigator.pushNamed(context, NewScreen.id);
+                      Navigator.pushNamed(context,NewScreen.id);
                     }
                   } catch (e) {
                     print(e);

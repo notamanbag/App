@@ -3,6 +3,7 @@ import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flash_chat/ChatScreen.dart';
+
 import 'forgotpassword.dart';
 import './screens/newscreen.dart';
 
@@ -26,6 +27,7 @@ class FlashChat extends StatelessWidget {
         ChatScreen.id: (context) => ChatScreen(),
         ForgotPassword.id:(context)=> ForgotPassword(),
         NewScreen.id:(context)=>NewScreen(),
+       
       },
     );
   }

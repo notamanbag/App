@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flash_chat/ChatScreen.dart';
 import 'package:flash_chat/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,30 +41,26 @@ class _NewScreenState extends State<NewScreen> {
         phoneNumber:this.phoneno,
         codeAutoRetrievalTimeout: autoRetrieve,
         codeSent: smsCodeSent,
-        timeout: const Duration(seconds: 3),
+        timeout: const Duration(seconds: 5),
         verificationCompleted: verifiedSuccess,
         verificationFailed: veriFailed);
   }
+
   
-
-   signIn() {
-    final AuthCredential credential = PhoneAuthProvider.getCredential(
-      verificationId: verificationId,
-      smsCode: smsCode,
-    );
-    FirebaseAuth.instance.signInWithCredential(credential).then((user) {
-
-    }).catchError((e) {
-      print('1234567890');
-      print(e);
-    });
+  void signin() async {
+    
+    final AuthCredential credential = PhoneAuthProvider.getCredential(verificationId: verificationId,smsCode:smsCode );
+    final FirebaseUser user = (await FirebaseAuth.instance.signInWithCredential(credential)) as FirebaseUser;
+    final FirebaseUser currentUser = await FirebaseAuth.instance.currentUser();
+    assert(user.uid==currentUser.uid);
+    print('Signed in with phonenumber');
+    
   }
-
   
-       
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( 
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
@@ -108,19 +105,21 @@ class _NewScreenState extends State<NewScreen> {
                 title: text,
                 colour: Colors.blueAccent,
                 onPressed: () {
-                  verify();
-                    
-
-                   setState(() {
-                     text = 'Lets Chat';
-                     isvisible = true;
+                  
+                    Navigator.pushNamed(context, ChatScreen.id);
+                      
+                      setState(() {
+                      text = 'Lets Chat';
+                      isvisible = true;
                   });
                     },
-                    )
-                
-                 
-
-          ],
+            ),
+             FloatingActionButton(
+                onPressed: () => verify(),
+                tooltip: 'get code',
+                  child: new Icon(Icons.send),
+                   ), // This trailing comma makes auto-formatting nicer for build methods.
+  ],
         ),
       ),
     );
@@ -131,3 +130,5 @@ class _NewScreenState extends State<NewScreen> {
  
   }
 }
+
+  
