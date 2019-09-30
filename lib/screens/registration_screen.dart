@@ -1,6 +1,6 @@
 
 import 'package:flash_chat/ChatScreen.dart';
-import 'package:flash_chat/screens/newscreen.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/rounded_button.dart';
 import 'package:flash_chat/constants.dart';
@@ -15,19 +15,17 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  bool showspin = false;
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+  String number;
   Future <String>signIn(String email,String password) async {
     FirebaseUser User = await _auth.signInWithEmailAndPassword(email: email,password: password) as FirebaseUser;
     if(User.isEmailVerified)return User.uid;
     else print("Not Verified");
     return null;
   }
-  
-  bool showspin = false;
-  final _auth = FirebaseAuth.instance;
-  String email;
-  String password;
-  String number;
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,48 +63,44 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
                 onChanged: (value) {
-                  number= value;
+                  password= value;
                 },
                 decoration:
                     kDecoration.copyWith(hintText: 'Enter your password')),
             SizedBox(
               height: 24.0,
             ),
-            TextField(
-                keyboardType:TextInputType.number,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.black),
-                onChanged: (value) {
-                  password = value;
-                },
-                decoration:
-                    kDecoration.copyWith(hintText: 'Enter your Number')),
-            SizedBox(
-              height: 24.0,
-            ),
+            // TextField(
+            //     keyboardType:TextInputType.number,
+            //     textAlign: TextAlign.center,
+            //     style: TextStyle(color: Colors.black),
+            //     onChanged: (value) {
+            //       password = value;
+            //     },
+            //     decoration:
+            //         kDecoration.copyWith(hintText: 'Enter your Number')),
+            //
 
             RoundedButton(
                 title: 'Register',
                 colour: Colors.blueAccent,
-                onPressed: ()async {
+                onPressed: ()async{
                   
                   try {
                      FirebaseUser newuser =  (await _auth.createUserWithEmailAndPassword(
                         email: email, password: password)).user;
-                        try{
+                        
                           await newuser.sendEmailVerification();
                           return newuser.uid;
                           Navigator.pushNamed(context, ChatScreen.id);
-                        }
-                        catch(e)
-                        {
-                          print("An error occured while fetching ");
-                          print(e);
-                        }
+                         
+                        
+                        
                    
                   } catch (e) {
                     print(e);
                   }
+                  
                 }),
                 // FloatingActionButton(
                 //   child: 

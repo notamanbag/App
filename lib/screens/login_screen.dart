@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 //import 'registration_screen.dart';
 import 'package:flash_chat/ChatScreen.dart';
 import 'package:flash_chat/forgotpassword.dart';
-import 'registration_screen.dart';
 
 
 class LoginScreen extends StatefulWidget {
