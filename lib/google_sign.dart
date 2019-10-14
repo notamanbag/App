@@ -31,6 +31,7 @@ import 'dart:async';
     if (name.contains(" ")) {
     name = name.substring(0, name.indexOf(" "));
   }
+  await user.sendEmailVerification();
 
   assert(!user.isAnonymous);
   assert(await user.getIdToken() != null);
