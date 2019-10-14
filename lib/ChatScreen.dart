@@ -1,3 +1,5 @@
+import 'package:flash_chat/google_sign.dart';
+import 'package:flash_chat/screens/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flash_chat/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,6 +35,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(
         leading: null,
         actions: <Widget>[
@@ -64,14 +67,21 @@ class _ChatScreenState extends State<ChatScreen> {
                     ),
                   ),
                   FlatButton(
+                    
                     onPressed: () {
                       //Implement send functionality.
                     },
-                    child: Text(
+                    
+                    child: 
+                    Text(
                       'Send',
                       style: kSendButtonTextStyle,
                     ),
                   ),
+                  FloatingActionButton(onPressed:()async {
+                    signOutGoogle();
+                    Navigator.pushNamed(context, WelcomeScreen.id);
+                  })
                 ],
               ),
             ),

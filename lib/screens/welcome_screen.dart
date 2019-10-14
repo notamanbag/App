@@ -1,3 +1,4 @@
+import 'package:flash_chat/google_sign.dart';
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'registration_screen.dart';
@@ -45,7 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Hero(
                   tag: 'LOGO',
                   child: Container(
-                    child: Image.asset('images/logo.png'),
+                    child: Image.asset('assets/images/logo.png'),
                     height: animation.value * 100,
                   ),
                 ),
@@ -75,6 +76,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Navigator.pushNamed(context, RegistrationScreen.id);
               },
             ),
+            
           ],
         ),
       ),
